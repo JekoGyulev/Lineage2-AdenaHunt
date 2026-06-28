@@ -2,6 +2,7 @@ package main.model;
 
 public enum FightOutcome {
 
-    // TODO: Complete enumeration
+    PLAYER_WIN,
+    MOB_WIN
 
 }
