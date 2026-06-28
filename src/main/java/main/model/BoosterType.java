@@ -2,6 +2,9 @@ package main.model;
 
 public enum BoosterType {
 
-    // TODO: Complete enumeration
+    ATTACK_BOOSTER,
+    DEFENSE_BOOSTER,
+    XP_BOOSTER,
+    ADENA_BOOSTER
 
 }
