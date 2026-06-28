@@ -49,10 +49,10 @@ public class Player {
     @Column
     private int adena;
     @CreationTimestamp
-    @Column(name = "created_on")
+    @Column(name = "created_on", nullable = false)
     private LocalDateTime createdOn;
     @UpdateTimestamp
-    @Column(name = "updated_on")
+    @Column(name = "updated_on", nullable = false)
     private LocalDateTime updatedOn;
 
 }

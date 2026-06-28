@@ -27,9 +27,9 @@ public class Party {
     @JoinColumn(name = "leader_id", nullable = false)
     private Player leader;
     @CreationTimestamp
-    @Column(name = "created_on")
+    @Column(name = "created_on", nullable = false)
     private LocalDateTime createdOn;
     @UpdateTimestamp
-    @Column(name = "updated_on")
+    @Column(name = "updated_on", nullable = false)
     private LocalDateTime updatedOn;
 }
