@@ -34,15 +34,15 @@ public class Player {
     @ManyToOne
     @JoinColumn(name = "party_id")
     private Party party;
-    @Column(nullable = false)
+    @Column
     private int level;
-    @Column(nullable = false)
+    @Column
     private double health;
-    @Column(nullable = false)
+    @Column
     private double attack;
-    @Column(nullable = false)
+    @Column
     private double defense;
-    @Column(nullable = false)
+    @Column
     private double xp;
     @Column
     private int adena;

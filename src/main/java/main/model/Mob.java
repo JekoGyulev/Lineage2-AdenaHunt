@@ -22,15 +22,15 @@ public class Mob {
     private UUID id;
     @Column(nullable = false)
     private String name;
-    @Column(nullable = false)
+    @Column
     private int level;
-    @Column(nullable = false)
+    @Column
     private double health;
-    @Column(nullable = false)
+    @Column
     private double attack;
-    @Column(nullable = false)
+    @Column
     private double defense;
-    @Column(name = "is_alive",nullable = false)
+    @Column(name = "is_alive")
     private boolean isAlive;
     @Column(name = "adena_drop")
     private int adenaDrop;
