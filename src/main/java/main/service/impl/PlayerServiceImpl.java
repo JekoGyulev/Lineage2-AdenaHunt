@@ -1,12 +1,16 @@
 package main.service.impl;
 
+import main.exception.LoginException;
 import main.model.Player;
 import main.repository.PlayerRepository;
 import main.service.PlayerService;
+import main.web.dto.LoginRequest;
 import main.web.dto.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 
 @Service
@@ -36,5 +40,19 @@ public class PlayerServiceImpl implements PlayerService {
 
 
         this.playerRepository.save(player);
+    }
+
+    @Override
+    public Player login(LoginRequest loginRequest) {
+        Player player = this.playerRepository
+                .findByUsername(loginRequest.getUsername())
+                .orElseThrow(() -> new LoginException("Username or password incorrect"));
+
+
+        if (!passwordEncoder.matches(loginRequest.getPassword(), player.getPassword())) {
+            throw new  LoginException("Username or password incorrect");
+        }
+
+        return player;
     }
 }
