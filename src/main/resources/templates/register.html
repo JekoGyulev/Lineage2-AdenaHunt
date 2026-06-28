@@ -20,11 +20,11 @@
       </svg>
     </a>
     <h1>Create Account</h1>
-    <form action="">
+    <form th:action="@{/register}" th:method="POST" th:object="${registerRequest}">
       <div class="form-group">
         <label for="username">Username</label>
-        <input type="text" id="username" placeholder="Enter your username" required>
-        <div class="form-error">Invalid username</div>
+        <input th:field="*{username}" type="text" id="username" placeholder="Enter your username">
+        <div th:if="${#fields.hasErrors('username')}" class="form-error">Invalid username</div>
       </div>
 
       <div class="form-group">
@@ -37,21 +37,21 @@
           </div>
         </div>
         <div class="password-wrapper">
-          <input type="password" id="password" placeholder="Enter your password" required>
+          <input th:field="*{password}" type="password" id="password" placeholder="Enter your password">
           <i class="fa-solid fa-eye toggle-password" onclick="togglePassword()" id="toggleIcon"></i>
         </div>
-        <div class="form-error">Invalid password</div>
+        <div th:if="${#fields.hasErrors('password')}" class="form-error">Invalid password</div>
       </div>
 
       <div class="form-group">
         <label for="nickname">Nickname</label>
-        <input type="text" id="nickname" placeholder="Choose a nickname" required>
-        <div class="form-error">Invalid nickname</div>
+        <input th:field="*{nickname}" type="text" id="nickname" placeholder="Choose a nickname">
+        <div th:if="${#fields.hasErrors('nickname')}" class="form-error">Invalid nickname</div>
       </div>
 
       <div class="form-divider"></div>
       <button type="submit" class="btn-primary">Register</button>
-      <p class="switch-link">Already have an account? <a href="">Log In</a></p>
+      <p class="switch-link">Already have an account? <a th:href="@{/login}">Log In</a></p>
     </form>
 
   </div>
