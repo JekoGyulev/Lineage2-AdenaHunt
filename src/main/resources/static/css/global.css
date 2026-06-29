@@ -61,6 +61,13 @@ footer {
   text-transform: uppercase;
 }
 
+.credentials-error-message {
+    color: red;
+    font-size: 0.9rem;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 h1, h2, h3 {
   text-shadow:  0 0 10px rgba(29, 93, 255, 0.6);
 }

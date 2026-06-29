@@ -20,6 +20,11 @@
       </svg>
     </a>
     <h1>Log In</h1>
+
+      <div th:if="${param.error}" class="credentials-error-message">
+          Invalid username or password.
+      </div>
+
     <form th:action="@{/login}" th:method="POST" th:object="${loginRequest}">
       <div class="form-group">
         <label for="username">Username</label>
