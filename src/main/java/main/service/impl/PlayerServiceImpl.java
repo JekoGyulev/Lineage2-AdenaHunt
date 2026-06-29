@@ -1,6 +1,6 @@
 package main.service.impl;
 
-import main.exception.LoginException;
+import main.model.Party;
 import main.model.Player;
 import main.model.PlayerClass;
 import main.property.ClassProperties;
@@ -8,16 +8,16 @@ import main.property.ClassProperties.ClassDetails;
 import main.repository.PlayerRepository;
 import main.security.UserPrincipal;
 import main.service.PlayerService;
-import main.web.dto.LoginRequest;
 import main.web.dto.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import main.property.ClassProperties.Booster;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -67,6 +67,35 @@ public class PlayerServiceImpl implements PlayerService, UserDetailsService {
     public Player getPlayerById(UUID id) {
         return this.playerRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Player with this ID was not found"));
+    }
+
+    @Override
+    public List<Booster> getBoosters(PlayerClass playerClass) {
+        return this.classProperties.getDetailsClassByPlayerClass(playerClass).getBoosters();
+    }
+
+    @Override
+    public List<Player> getAllByParty(Party party) {
+
+        if (party == null) {
+            return List.of();
+        }
+
+        List<Player> partyMembers = this.playerRepository.findAllByPartyId(party.getId());
+
+        return partyMembers;
+    }
+
+    @Override
+    public List<Player> getAllFreePlayersToInvite(UUID playerId) {
+        List<Player> freePlayersToBeInvited = this.playerRepository.findAll()
+                .stream()
+                .filter(player -> player.getParty() == null)
+                .filter( player -> player.getPlayerClass() != null)
+                .filter(player -> !player.getId().equals(playerId))
+                .toList();
+
+        return freePlayersToBeInvited;
     }
 
     private void setPlayerDetails(Player player, ClassDetails chosenClassDetails) {

@@ -2,13 +2,14 @@ package main.service.impl;
 
 import main.model.Mob;
 import main.model.MobType;
-import main.property.MobProperties;
 import main.repository.MobRepository;
 import main.property.MobProperties.MobDetails;
 import main.service.MobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -78,5 +79,10 @@ public class MobServiceImpl implements MobService {
         this.mobRepository.save(mob);
 
         return mob;
+    }
+
+    @Override
+    public List<Mob> getTop3RecentMobs() {
+        return this.mobRepository.findTop3OrderByCreatedOnDesc();
     }
 }
