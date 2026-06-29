@@ -56,11 +56,17 @@ public class PlayerServiceImpl implements PlayerService, UserDetailsService {
     @Override
     public void chooseClass(UUID userId, PlayerClass playerClass) {
 
-        Player player = getById(userId);
+        Player player = getPlayerById(userId);
 
         ClassDetails chosenClassDetails = this.classProperties.getDetailsClassByPlayerClass(playerClass);
 
         setPlayerDetails(player, chosenClassDetails);
+    }
+
+    @Override
+    public Player getPlayerById(UUID id) {
+        return this.playerRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Player with this ID was not found"));
     }
 
     private void setPlayerDetails(Player player, ClassDetails chosenClassDetails) {
@@ -74,10 +80,6 @@ public class PlayerServiceImpl implements PlayerService, UserDetailsService {
         this.playerRepository.save(player);
     }
 
-    private Player getById(UUID userId) {
-        return this.playerRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Player with this ID was not found"));
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
