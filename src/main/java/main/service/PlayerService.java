@@ -12,4 +12,6 @@ public interface PlayerService {
     void register(RegisterRequest registerRequest);
 
     void chooseClass(UUID userId, PlayerClass playerClass);
+
+    Player getPlayerById(UUID id);
 }
