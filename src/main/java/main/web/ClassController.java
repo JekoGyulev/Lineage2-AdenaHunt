@@ -36,9 +36,7 @@ public class ClassController {
     public String chooseClass(@RequestParam("selectedClass") PlayerClass playerClass,
                               @AuthenticationPrincipal UserPrincipal userPrincipal) {
 
-
         this.playerService.chooseClass(userPrincipal.getId(), playerClass);
-
 
         return "redirect:/lobby";
     }

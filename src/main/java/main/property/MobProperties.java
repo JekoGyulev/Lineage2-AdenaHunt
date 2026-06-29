@@ -6,7 +6,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-import java.lang.reflect.Array;
 import java.util.List;
 
 @Data
@@ -15,10 +14,10 @@ import java.util.List;
 @PropertySource(value = "mob-details.yaml", factory = YamlPropertySourceFactory.class)
 public class MobProperties {
 
-    private List<Mob> mobs;
+    private List<MobDetails> mobs;
 
     @Data
-    public static class Mob {
+    public static class MobDetails {
         private String name;
         private int[] levelRange;
         private String spawnArea;
