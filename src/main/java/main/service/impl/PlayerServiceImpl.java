@@ -2,6 +2,9 @@ package main.service.impl;
 
 import main.exception.LoginException;
 import main.model.Player;
+import main.model.PlayerClass;
+import main.property.ClassProperties;
+import main.property.ClassProperties.ClassDetails;
 import main.repository.PlayerRepository;
 import main.security.UserPrincipal;
 import main.service.PlayerService;
@@ -16,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -23,12 +27,14 @@ public class PlayerServiceImpl implements PlayerService, UserDetailsService {
 
     private final PlayerRepository playerRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ClassProperties classProperties;
 
 
     @Autowired
-    public PlayerServiceImpl(PlayerRepository playerRepository, PasswordEncoder passwordEncoder) {
+    public PlayerServiceImpl(PlayerRepository playerRepository, PasswordEncoder passwordEncoder, ClassProperties classProperties) {
         this.playerRepository = playerRepository;
         this.passwordEncoder = passwordEncoder;
+        this.classProperties = classProperties;
     }
 
     @Override
@@ -48,17 +54,29 @@ public class PlayerServiceImpl implements PlayerService, UserDetailsService {
     }
 
     @Override
-    public Player login(LoginRequest loginRequest) {
-        Player player = this.playerRepository
-                .findByUsername(loginRequest.getUsername())
-                .orElseThrow(() -> new LoginException("Username or password incorrect"));
+    public void chooseClass(UUID userId, PlayerClass playerClass) {
 
+        Player player = getById(userId);
 
-        if (!passwordEncoder.matches(loginRequest.getPassword(), player.getPassword())) {
-            throw new  LoginException("Username or password incorrect");
-        }
+        ClassDetails chosenClassDetails = this.classProperties.getDetailsClassByPlayerClass(playerClass);
 
-        return player;
+        setPlayerDetails(player, chosenClassDetails);
+    }
+
+    private void setPlayerDetails(Player player, ClassDetails chosenClassDetails) {
+
+        player.setPlayerClass(chosenClassDetails.getPlayerClass());
+        player.setBannerImg(chosenClassDetails.getBannerImg());
+        player.setAttack(chosenClassDetails.getAttackFactor() * player.getLevel());
+        player.setDefense(chosenClassDetails.getDefenseFactor() * player.getLevel());
+        player.setHealth(chosenClassDetails.getHealthFactor() * player.getLevel());
+
+        this.playerRepository.save(player);
+    }
+
+    private Player getById(UUID userId) {
+        return this.playerRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Player with this ID was not found"));
     }
 
     @Override

@@ -1,8 +1,7 @@
 package main.web;
 
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import main.model.Player;
+import main.property.ClassProperties;
 import main.service.PlayerService;
 import main.web.dto.LoginRequest;
 import main.web.dto.RegisterRequest;
