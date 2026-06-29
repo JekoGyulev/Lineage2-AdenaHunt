@@ -3,10 +3,15 @@ package main.service.impl;
 import main.exception.LoginException;
 import main.model.Player;
 import main.repository.PlayerRepository;
+import main.security.UserPrincipal;
 import main.service.PlayerService;
 import main.web.dto.LoginRequest;
 import main.web.dto.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +19,7 @@ import java.util.Optional;
 
 
 @Service
-public class PlayerServiceImpl implements PlayerService {
+public class PlayerServiceImpl implements PlayerService, UserDetailsService {
 
     private final PlayerRepository playerRepository;
     private final PasswordEncoder passwordEncoder;
@@ -54,5 +59,25 @@ public class PlayerServiceImpl implements PlayerService {
         }
 
         return player;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        Optional<Player> optionalPlayer = this.playerRepository.findByUsername(username);
+
+        if (optionalPlayer.isEmpty()) {
+            throw new UsernameNotFoundException("Username not found");
+        }
+
+        Player player = optionalPlayer.get();
+
+        UserPrincipal userPrincipal = UserPrincipal.builder()
+                .id(player.getId())
+                .username(username)
+                .password(player.getPassword())
+                .build();
+
+        return userPrincipal;
     }
 }

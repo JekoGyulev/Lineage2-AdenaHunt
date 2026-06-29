@@ -60,15 +60,6 @@ public class IndexController {
     }
 
 
-    @PostMapping("/login")
-    public String login(LoginRequest loginRequest,
-                        HttpSession session) {
-        Player player = this.playerService.login(loginRequest);
-        session.setAttribute("user_id", player.getId());
-        return "redirect:/lobby";
-    }
-
-
     @GetMapping("/lobby")
     public ModelAndView getLobbyPage() {
         ModelAndView modelAndView = new ModelAndView();
@@ -77,11 +68,6 @@ public class IndexController {
         return modelAndView;
     }
 
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/";
-    }
 
 
 }
