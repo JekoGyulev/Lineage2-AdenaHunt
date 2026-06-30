@@ -9,6 +9,7 @@ import main.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,6 +36,7 @@ public class PartyServiceImpl implements PartyService {
         Party party = getParty(sender);
 
         receiver.setParty(party);
+        receiver.setJoinedPartyOn(LocalDateTime.now());
 
         this.playerService.update(receiver);
     }
@@ -48,19 +50,25 @@ public class PartyServiceImpl implements PartyService {
 
         List<Player> membersOfCurrentParty = this.playerService.getAllByParty(party);
 
-        if (party.getLeader().equals(currentPlayer)) {
+        if (party.getLeader().getId().equals(currentPlayer.getId())) {
 
             if (membersOfCurrentParty.size() >= 2) {
-                Player nextLeader = membersOfCurrentParty.get(1);
+                Player nextLeader = membersOfCurrentParty.stream()
+                        .filter(p -> !p.getId().equals(currentPlayer.getId()))
+                        .findFirst()
+                        .orElseThrow();
+
                 party.setLeader(nextLeader);
+
+                this.partyRepository.save(party);
             } else {
-                party.setLeader(null);
+                this.partyRepository.delete(party);
             }
 
-            this.partyRepository.save(party);
         }
 
         currentPlayer.setParty(null);
+        currentPlayer.setJoinedPartyOn(null);
 
         this.playerService.update(currentPlayer);
     }
@@ -78,6 +86,7 @@ public class PartyServiceImpl implements PartyService {
         this.partyRepository.save(party);
 
         sender.setParty(party);
+        sender.setJoinedPartyOn(LocalDateTime.now());
 
         this.playerService.update(sender);
 

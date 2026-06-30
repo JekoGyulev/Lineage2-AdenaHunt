@@ -81,7 +81,7 @@ public class PlayerServiceImpl implements PlayerService, UserDetailsService {
             return List.of();
         }
 
-        List<Player> partyMembers = this.playerRepository.findAllByPartyId(party.getId());
+        List<Player> partyMembers = this.playerRepository.findAllByPartyIdOrderByJoinedPartyOnDescIdAsc(party.getId());
 
         return partyMembers;
     }

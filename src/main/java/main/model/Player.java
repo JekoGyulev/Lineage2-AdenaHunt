@@ -52,6 +52,8 @@ public class Player {
     @UpdateTimestamp
     @Column(name = "updated_on", nullable = false)
     private LocalDateTime updatedOn;
+    @Column(name = "joined_party_on")
+    private LocalDateTime joinedPartyOn;
 
 }
 

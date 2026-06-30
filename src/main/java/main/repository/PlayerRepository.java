@@ -14,5 +14,5 @@ import java.util.UUID;
 public interface PlayerRepository extends JpaRepository<Player, UUID> {
     Optional<Player> findByUsername(String username);
 
-    List<Player> findAllByPartyId(UUID partyId);
+    List<Player> findAllByPartyIdOrderByJoinedPartyOnDescIdAsc(UUID partyId);
 }

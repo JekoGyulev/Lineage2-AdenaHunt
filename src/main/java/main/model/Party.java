@@ -22,7 +22,7 @@ public class Party {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     @ManyToOne
-    @JoinColumn(name = "leader_id", nullable = false)
+    @JoinColumn(name = "leader_id")
     private Player leader;
     @CreationTimestamp
     @Column(name = "created_on", nullable = false)
