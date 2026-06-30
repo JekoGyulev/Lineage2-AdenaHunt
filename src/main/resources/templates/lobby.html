@@ -101,7 +101,8 @@
 
                 <div class="party-actions">
                     <button th:if="${partyMembers.size() < 3}" class="btn invite" onclick="openInviteModal()">Invite Player</button>
-                    <form th:if="${currentPlayer.party != null}" class="party-action-form" action="">
+                    <form th:if="${currentPlayer.party != null}" class="party-action-form"
+                          th:action="@{'/party/' + ${currentPlayer.party.id} + '/dismiss'}" th:method="PATCH">
                         <button class="btn dismiss">Dismiss Party</button>
                     </form>
                 </div>

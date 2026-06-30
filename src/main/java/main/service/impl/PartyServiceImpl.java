@@ -8,6 +8,7 @@ import main.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -35,6 +36,31 @@ public class PartyServiceImpl implements PartyService {
         receiver.setParty(party);
 
         this.playerService.update(receiver);
+    }
+
+    @Override
+    public void dismiss(UUID partyId, Player currentPlayer) {
+
+        Party party = this.partyRepository.findById(partyId)
+                .orElseThrow(() -> new IllegalArgumentException("No party was found with such id"));
+
+        List<Player> membersOfCurrentParty = this.playerService.getAllByParty(party);
+
+        if (party.getLeader().equals(currentPlayer)) {
+
+            if (membersOfCurrentParty.size() >= 2) {
+                Player nextLeader = membersOfCurrentParty.get(1);
+                party.setLeader(nextLeader);
+            } else {
+                party.setLeader(null);
+            }
+
+            this.partyRepository.save(party);
+        }
+
+        currentPlayer.setParty(null);
+
+        this.playerService.update(currentPlayer);
     }
 
     private Party getParty(Player sender) {
