@@ -8,9 +8,7 @@ import main.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -35,6 +33,16 @@ public class PartyController {
         UUID senderId = userPrincipal.getId();
 
         this.partyService.invitePlayer(senderId, invitedPlayerId);
+
+        return "redirect:/lobby";
+    }
+
+
+    @PatchMapping("/{partyId}/dismiss")
+    public String dismissParty(@PathVariable UUID partyId, @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        Player currentPlayer = this.playerService.getPlayerById(userPrincipal.getId());
+
+        this.partyService.dismiss(partyId, currentPlayer);
 
         return "redirect:/lobby";
     }
