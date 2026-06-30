@@ -1,5 +1,6 @@
 package main.service.impl;
 
+import jakarta.transaction.Transactional;
 import main.model.Party;
 import main.model.Player;
 import main.repository.PartyRepository;
@@ -39,6 +40,7 @@ public class PartyServiceImpl implements PartyService {
     }
 
     @Override
+    @Transactional
     public void dismiss(UUID partyId, Player currentPlayer) {
 
         Party party = this.partyRepository.findById(partyId)
