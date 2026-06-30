@@ -98,6 +98,11 @@ public class PlayerServiceImpl implements PlayerService, UserDetailsService {
         return freePlayersToBeInvited;
     }
 
+    @Override
+    public Player update(Player sender) {
+        return this.playerRepository.save(sender);
+    }
+
     private void setPlayerDetails(Player player, ClassDetails chosenClassDetails) {
 
         player.setPlayerClass(chosenClassDetails.getPlayerClass());

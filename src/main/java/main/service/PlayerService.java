@@ -24,4 +24,5 @@ public interface PlayerService {
 
     List<Player> getAllFreePlayersToInvite(UUID playerId);
 
+    Player update(Player sender);
 }

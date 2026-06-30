@@ -179,11 +179,16 @@
                         <span class="invite-player-class-label">Class:</span>
                         <span th:text="${freePlayer.playerClass.displayName}"></span>
                     </div>
+
                 </div>
-                <form class="invite-player-form" action="" method="post">
+
+                <form class="invite-player-form" th:action="@{'/party?receiverId=' + ${freePlayer.id}} "
+                      th:method="POST">
                     <button type="submit" class="btn invite-btn">Invite</button>
                 </form>
+
             </div>
+
         </div>
     </div>
 </div>
