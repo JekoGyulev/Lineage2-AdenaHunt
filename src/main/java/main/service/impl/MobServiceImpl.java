@@ -172,6 +172,7 @@ public class MobServiceImpl implements MobService {
         player.setXp(player.getXp() + finalXp);
         player.setAdena((int) (player.getAdena() + finalAdena));
 
+        this.playerService.levelUp(player);
         this.playerService.update(player);
     }
 

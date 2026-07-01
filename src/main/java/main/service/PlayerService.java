@@ -25,4 +25,7 @@ public interface PlayerService {
     List<Player> getAllFreePlayersToInvite(UUID playerId);
 
     Player update(Player player);
+
+    void levelUp(Player player);
+
 }

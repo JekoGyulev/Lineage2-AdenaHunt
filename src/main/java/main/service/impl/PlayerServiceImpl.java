@@ -103,6 +103,22 @@ public class PlayerServiceImpl implements PlayerService, UserDetailsService {
         return this.playerRepository.save(player);
     }
 
+    @Override
+    public void levelUp(Player player) {
+        int nextLevel = (int) (player.getXp() / 100);
+
+        if (nextLevel > player.getLevel()) {
+            player.setLevel(nextLevel);
+
+            ClassDetails classDetails = classProperties.getDetailsClassByPlayerClass(player.getPlayerClass());
+
+            player.setHealth(classDetails.getHealthFactor() * nextLevel);
+            player.setAttack(classDetails.getAttackFactor() * nextLevel);
+            player.setDefense(classDetails.getDefenseFactor() * nextLevel);
+        }
+    }
+
+
     private void setPlayerDetails(Player player, ClassDetails chosenClassDetails) {
 
         player.setPlayerClass(chosenClassDetails.getPlayerClass());
