@@ -19,4 +19,7 @@ public interface MobRepository extends JpaRepository<Mob, UUID> {
                             LIMIT 3
                     """, nativeQuery = true)
     List<Mob> findTop3OrderByCreatedOnDesc();
+
+
+    List<Mob> findAllByOrderByCreatedOnDescHealthAscAttackAscDefenseAsc();
 }

@@ -99,8 +99,8 @@ public class PlayerServiceImpl implements PlayerService, UserDetailsService {
     }
 
     @Override
-    public Player update(Player sender) {
-        return this.playerRepository.save(sender);
+    public Player update(Player player) {
+        return this.playerRepository.save(player);
     }
 
     private void setPlayerDetails(Player player, ClassDetails chosenClassDetails) {
